@@ -29,9 +29,6 @@ function love.keypressed(k)
     end
 end
 function love.update(dt)
-    
-    
-
     x = x + velocityX * dt
     y = y + velocityY * dt
     if x >= width - image:getWidth() * imgScale then
