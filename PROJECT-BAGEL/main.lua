@@ -20,17 +20,17 @@ function love.load()
     psystem:setLinearAcceleration(-200, -200, 200, 200)
 
 end
-
+function love.keypressed(k)
+    if k == 'escape' then
+        love.event.quit()
+    end
+    if k == 'r' then
+        love.event.quit("")
+    end
+end
 function love.update(dt)
     
-    function love.keypressed(k)
-        if k == 'escape' then
-            love.event.quit()
-        end
-        if k == 'r' then
-            love.event.quit("")
-        end
-    end
+    
 
     x = x + velocityX * dt
     y = y + velocityY * dt
