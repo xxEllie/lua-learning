@@ -7,7 +7,7 @@ function love.load()
     imgScale = .5
     velocityX = 300
     velocityY = 300
-
+    font = love.graphics.newFont("/assets/font/OMORI_GAME2.ttf", 48, "normal")
     -- spritesheet
     bagel_spritesheet = love.graphics.newImage("/assets/spritesheet/bagel_animated.png")
     grid = anim8.newGrid(360, 360, 1080, 360)
@@ -68,16 +68,26 @@ function love.update(dt)
 end
 
 function love.draw()
+    love.graphics.setFont(font)
     -- bagel animated
+    love.graphics.print("currently playing: " .. musicFiles[currentSongIndex], 600, 100)
+    love.graphics.print("R: restart", 100, 50)
+    love.graphics.print("esc: exit", 100, 100)
+    love.graphics.print("2: next song", 100, 150)
     animation:draw(bagel_spritesheet, x, y, 0, imgScale, imgScale)
     -- love.graphics.draw(image, 100, 100, 0, x/200, y/200)
-    love.graphics.draw(psystem, 500, 500)
+    love.graphics.draw(psystem, mx, my)
+
+    -- draw song info and controls and stuff on screen
+
+   
+
+
 end
 
 function love.mousePressed()
-    --this checks if you are left clicking, and if you are it runs the code under it
     if love.mouse.isDown(1) then
-        --this says if the user is left clicking then emit 32 particles and since the particles are drawn where the mouse is they come out of the mouse
+        mx, my = love.mouse.getPosition()
         psystem:emit(32)
         yippeee:play()
     end
