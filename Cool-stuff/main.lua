@@ -20,14 +20,14 @@ local function setWindowPosition(x, y)
     ffi.C.SetWindowPos(hwnd, HWND_TOP, x, y, 0, 0, SWP_NOSIZE)
 end
 
-
+local floorY
 local gravity = 500
 local velocity = 0
 local windowX, windowY = 100, 100
-local floorY = 600
 local moveSpeed = 400
 function love.load()
     bagel = love.graphics.newImage("/assets/bagel.png")
+    floorY = 1440 - bagel:getHeight() - 40
 
     local exStyle = ffi.C.GetWindowLongA(hwnd, GWL_EXSTYLE)
     ffi.C.SetWindowLongA(hwnd, GWL_EXSTYLE, bit.bor(exStyle, WS_EX_LAYERED, WS_EX_TRANSPARENT))
@@ -50,6 +50,10 @@ function love.update(dt)
     end
     if love.keyboard.isDown("up") then
         windowY = windowY - (velocity + gravity) * dt
+    end
+
+    if love.keyboard.isDown("escape") then
+        love.event.quit()
     end
     setWindowPosition(windowX, windowY)
 end
