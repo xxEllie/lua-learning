@@ -12,7 +12,7 @@ function love.load()
     bagel_spritesheet = love.graphics.newImage("/assets/spritesheet/bagel_animated.png")
     grid = anim8.newGrid(360, 360, 1080, 360)
     animation = anim8.newAnimation(grid('1-3', 1), 0.1)
-
+    isHidden = false
     -- sound
     yippeee = love.audio.newSource("/assets/sfx/yippee-tbh.mp3", "static")
 
@@ -26,10 +26,6 @@ function love.load()
             table.insert(musicFiles, file)
             table.insert(musicToPlay, love.audio.newSource(bgmDirectory .. "/" .. file, "stream"))
         end
-    end
-
-    for index, value in ipairs(musicToPlay) do
-        print(value)
     end
 
     currentSongIndex = 1
@@ -68,20 +64,27 @@ function love.update(dt)
 end
 
 function love.draw()
+    -- cool font :3 
     love.graphics.setFont(font)
+    
+    -- draw song info and controls and stuff on screen
+    if not isHidden then
+        love.graphics.print("currently playing: " .. musicFiles[currentSongIndex], 100, 50)
+    love.graphics.print("R: restart", 100, 100)
+    love.graphics.print("esc: exit", 100, 150)
+    love.graphics.print("2: next song", 100, 200)
+    love.graphics.print("space: hide controls", 100, 250)
+    end
+    love.graphics.print(os.date("%A"), (width / 2) - (font:getWidth("%A") / 2), height / 2 - 50)
+    love.graphics.print(os.date("%c"), (width / 2) - (font:getWidth("%c") / 2), height / 2)
+
     -- bagel animated
-    love.graphics.print("currently playing: " .. musicFiles[currentSongIndex], 600, 100)
-    love.graphics.print("R: restart", 100, 50)
-    love.graphics.print("esc: exit", 100, 100)
-    love.graphics.print("2: next song", 100, 150)
     animation:draw(bagel_spritesheet, x, y, 0, imgScale, imgScale)
     -- love.graphics.draw(image, 100, 100, 0, x/200, y/200)
+    -- ^ this is a silly stretchy bagel, feel free to uncomment
+    
+    -- particle bagel
     love.graphics.draw(psystem, mx, my)
-
-    -- draw song info and controls and stuff on screen
-
-   
-
 
 end
 
@@ -102,6 +105,9 @@ function love.keypressed(k)
     end
     if k == '2' then
         nextSong()
+    end
+    if k == 'space' then
+        isHidden = not isHidden
     end
 end
 
